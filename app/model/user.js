@@ -22,7 +22,6 @@ module.exports = {
                 if (error) {
                     return reject(error)
                 }
-
                 // "result": [
                 //     {
                 //         "id": 8,
@@ -31,7 +30,6 @@ module.exports = {
                 //         "create_time": 2147483647
                 //     }
                 // ]
-
                 //对于获取资源,获取到固然好,未获取到不应视为错误
                 if (result && result[0] && result[0].id) {
                     delete result[0].password;
@@ -39,23 +37,6 @@ module.exports = {
                 } else {
                     resolve(null);
                 }
-            })
-        })
-    },
-    // 通过用户名获取用户信息
-    findItemByUsername(username) {
-        return new Promise((resolve, reject) => {
-            db.query('SELECT * FROM user WHERE username = ?', username, function(error, result, field) {
-                if (error) {
-                    return reject(error)
-                }
-                if (result && result[0] && result[0].username) {
-                    delete result.password;
-                    resolve(result[0])
-                } else {
-                    resolve(null)
-                }
-
             })
         })
     }
