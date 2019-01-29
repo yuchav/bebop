@@ -9,7 +9,7 @@ var fs = require('fs')
 var FileStreamRotator = require('file-stream-rotator')
 var morgan = require('morgan')
 
-var logDirectory = path.join(__dirname, 'log')
+var logDirectory = path.join(__dirname, '../log')
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
 var accessLogStream = FileStreamRotator.getStream({
   date_format: 'YYYYMMDD',
