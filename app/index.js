@@ -3,7 +3,22 @@ var app = express();
 var route = require('./route')
 var config = require('./config.js');
 var path = require('path');
-const bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
+
+var fs = require('fs')
+var FileStreamRotator = require('file-stream-rotator')
+var morgan = require('morgan')
+
+var logDirectory = path.join(__dirname, 'log')
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+var accessLogStream = FileStreamRotator.getStream({
+  date_format: 'YYYYMMDD',
+  filename: path.join(logDirectory, 'access-%DATE%.log'),
+  frequency: 'daily',
+  verbose: false
+})
+// setup the logger
+app.use(morgan('combined', {stream: accessLogStream}))
 
 app.use(bodyParser.json());
 
