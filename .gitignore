@@ -1,0 +1,14 @@
+.DS_Store
+app/config.js
+node_modules
+*.log
+*.sh
+**.log
+**.sh
+log_dir/*.log
+!log_dir/.gitkeep
+logs/*.log
+root_dir/*
+!root_dir/.gitkeep
+shell_dir/*.sh
+!shell_dir/template
