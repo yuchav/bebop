@@ -4,6 +4,7 @@ var route = require('./route')
 var config = require('./config.js');
 var path = require('path');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 var fs = require('fs')
 var FileStreamRotator = require('file-stream-rotator')
