@@ -12,13 +12,21 @@ var morgan = require('morgan')
 var logDirectory = path.join(__dirname, '../log')
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
 var accessLogStream = FileStreamRotator.getStream({
-  date_format: 'YYYYMMDD',
-  filename: path.join(logDirectory, 'access-%DATE%.log'),
-  frequency: 'daily',
-  verbose: false
+    date_format: 'YYYYMMDD',
+    filename: path.join(logDirectory, 'access-%DATE%.log'),
+    frequency: 'daily',
+    verbose: false
 })
 // setup the logger
-app.use(morgan('combined', {stream: accessLogStream}))
+app.use(morgan('combined', { stream: accessLogStream }))
+
+//跨域配置
+app.use(cors({
+    credentials: true,
+    origin: function(origin, callback) {
+        callback(null, true)
+    }
+}));
 
 app.use(bodyParser.json());
 
@@ -27,11 +35,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 route(app);
 
 app.use(function(err, req, res, next) {
-  return res.json({
-    success: false,
-    message: err.message,
-    root: true
-  })
+    return res.json({
+        success: false,
+        message: err.message,
+        root: true
+    })
 });
 
 app.listen(config.port, function() {
