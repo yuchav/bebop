@@ -1,12 +1,11 @@
 var db = require('../db.js');
 
 module.exports = {
-    //注册一个用户
     create(user) {
         return new Promise((resolve, reject) => {
             db.query('INSERT INTO user SET ?', user, function(error, result, field) {
                 if (error) {
-                    return reject(error)
+                    return reject(error);
                 }
                 if (result && result.affectedRows === 1 && result.insertId) {
                     resolve(result.insertId);
@@ -25,12 +24,11 @@ module.exports = {
                 // "result": [
                 //     {
                 //         "id": 8,
-                //         "username": "yuchav",
-                //         "password": "143b1830113a0e7bc4383366324d5a74161d3033",
-                //         "create_time": 2147483647
+                //         "username": "xxx",
+                //         "password": "xxx",
+                //         "create_time": xxx
                 //     }
                 // ]
-                //对于获取资源,获取到固然好,未获取到不应视为错误
                 if (result && result[0] && result[0].id) {
                     delete result[0].password;
                     resolve(result[0]);

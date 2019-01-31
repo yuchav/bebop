@@ -1,18 +1,17 @@
 var db = require('../db.js');
 
 module.exports = {
-    //新增一个session
     create(item) {
         return new Promise((resolve, reject) => {
             db.query('REPLACE INTO session SET ?', item, function(error, result, field) {
                 if (error) {
                     return reject(error)
                 }
-                //replce的时候,affectedRows可能为2
+                //REPLACE,affectedRows=2
                 if (result && result.affectedRows) {
                     resolve(item);
                 } else {
-                    reject(new Error('Session Create Failed'))
+                    reject(new Error('session create failed'))
                 }
             })
         })
@@ -28,7 +27,6 @@ module.exports = {
                 } else {
                     resolve(null);
                 }
-
             })
         })
     },

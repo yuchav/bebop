@@ -10,13 +10,13 @@ module.exports = function(app) {
     app.use('/signin', require('./signin.js'));
     app.use('/user', require('./user.js'));
 
-    // 404 page
-    app.use(function(req, res) {
-        if (!res.headersSent) {
-            return res.status(404).json({
-                success: false,
-                message: 'undefined route'
-            })
-        }
-    })
+    //404
+    // app.use(function(req, res) {
+    //     if (!res.headersSent) {
+    //         return res.status(404).json({
+    //             success: false,
+    //             message: 'invalid url'
+    //         })
+    //     }
+    // })
 }

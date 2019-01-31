@@ -10,8 +10,9 @@ var fs = require('fs')
 var FileStreamRotator = require('file-stream-rotator')
 var morgan = require('morgan')
 
-var logDirectory = path.join(__dirname, '../log')
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+
+var logDirectory = path.join(__dirname, '../log');
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 var accessLogStream = FileStreamRotator.getStream({
     date_format: 'YYYYMMDD',
     filename: path.join(logDirectory, 'access-%DATE%.log'),
@@ -21,7 +22,6 @@ var accessLogStream = FileStreamRotator.getStream({
 // setup the logger
 app.use(morgan('combined', { stream: accessLogStream }))
 
-//跨域配置
 app.use(cors({
     credentials: true,
     origin: function(origin, callback) {
@@ -31,7 +31,7 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 route(app);
 

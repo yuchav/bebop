@@ -16,25 +16,23 @@ router.post('/', function(req, res, next) {
 
     // 校验参数
     if (!(username.length >= 3 && username.length <= 16)) {
-        next(new Error('用户名请控制在3-16个字符'))
+        next(new Error('username must be 3-16 characters'))
     }
     if (password.length < 6 || password.length > 128) {
-        next(new Error('密码请控制在6-128个字符'))
+        next(new Error('password must be 6-128 characters'))
     }
     if (password !== repassword) {
-        next(new Error('两次输入的密码不一致'))
+        next(new Error('password and repassword not match'));
     }
 
-    // 明文密码加密
     password = sha1(password)
 
-    // 待写入数据库的用户信息
     var user = {
         username: username,
         password: password,
         create_time: new Date().getTime()
     }
-    //用户信息写入数据库
+
     UserModel.create(user).then(function(user_id) {
         var sessionItem = {
             user_id: user_id,
@@ -50,7 +48,7 @@ router.post('/', function(req, res, next) {
         })
     }).catch(function(err) {
         if (err.message.indexOf('ER_DUP_ENTRY') > -1) {
-            next(new Error('该账号已被注册'))
+            next(new Error('username has already been signed'))
         } else {
             next(err)
         }

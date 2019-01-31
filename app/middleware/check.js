@@ -4,11 +4,11 @@ module.exports = {
     checkLogin(req, res, next) {
         var token = req.headers.token;
         if (!token) {
-            throw new Error('缺少会话')
+            throw new Error('invalid token');
         }
         SessionModel.find(token).then(result => {
             if (!result) {
-                throw new Error('会话失效');
+                throw new Error('invalid token');
             } else {
                 var now = (new Date()).getTime();
                 if (now < result.expire * 1) {
@@ -19,7 +19,7 @@ module.exports = {
                     req.session.user = result;
                     next()
                 } else {
-                    throw new Error('会话过期')
+                    throw new Error('token expired')
                 }
             }
         }).catch(next)

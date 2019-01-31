@@ -10,17 +10,15 @@ var SessionModel = require('../model/session.js');
 
 
 router.post('/', function(req, res, next) {
-
     var body = req.body;
     var username = body.username || '';
     var password = body.password || '';
 
-    // 校验参数
     if (!username.length) {
-        return next(new Error('请填写用户名'));
+        return next(new Error('need username'));
     }
     if (!password.length) {
-        return next(new Error('请填写密码'));
+        return next(new Error('need password'));
     }
 
     var user = {
@@ -30,7 +28,7 @@ router.post('/', function(req, res, next) {
 
     UserModel.find(user).then(item => {
             if (!item) {
-                throw new Error('用户名或密码错误');
+                throw new Error('invalid username or password');
             } else {
                 var sessionItem = {
                     user_id: item.id,
@@ -38,7 +36,6 @@ router.post('/', function(req, res, next) {
                     expire: (new Date().getTime()) + session.maxAge,
                     session_id: uuid()
                 }
-
                 return SessionModel.create(sessionItem);
             }
         }).then(function(item) {
