@@ -31,10 +31,22 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-app.use('/public', express.static(path.join(__dirname, 'public')));
-
 route(app);
 
+app.use('/', express.static(path.join(__dirname, 'public')));
+
+
+//404
+app.use(function(req, res) {
+    if (!res.headersSent) {
+        return res.status(404).json({
+            success: false,
+            message: 'invalid url'
+        })
+    }
+})
+
+//500
 app.use(function(err, req, res, next) {
     return res.json({
         success: false,

@@ -16,7 +16,7 @@ router.get('/self', auth, function(req, res, next) {
     //     "username": "xxx",
     //     "session_id": "xxxx"
     // }
-    res.json(user);
+    return res.json(user);
 })
 
 module.exports = router;

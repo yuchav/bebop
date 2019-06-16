@@ -1,25 +1,26 @@
 var db = require('../db.js');
 
 module.exports = {
-    create(user) {
+    createOne(user) {
         return new Promise((resolve, reject) => {
             db.query('INSERT INTO user SET ?', user, function(error, result, field) {
                 if (error) {
                     return reject(error);
                 }
                 if (result && result.affectedRows === 1 && result.insertId) {
-                    resolve(result.insertId);
+                    return resolve(result.insertId);
                 } else {
-                    reject(new Error('Insert User Error'));
+                    return reject(new Error('Insert User Error'));
                 }
             })
         })
     },
-    find({ username, password }) {
+    findOne({ username, password }) {
         return new Promise((resolve, reject) => {
             db.query('SELECT * FROM user WHERE username = ? AND password = ?', [username, password], function(error, result, field) {
                 if (error) {
-                    return reject(error)
+                    return reject(error);
+                    //if no return, there will be excute
                 }
                 // "result": [
                 //     {
@@ -31,9 +32,9 @@ module.exports = {
                 // ]
                 if (result && result[0] && result[0].id) {
                     delete result[0].password;
-                    resolve(result[0]);
+                    return resolve(result[0]);
                 } else {
-                    resolve(null);
+                    return resolve(null);
                 }
             })
         })
