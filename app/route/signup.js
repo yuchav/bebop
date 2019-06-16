@@ -10,6 +10,7 @@ var UserModel = require('../model/user.js');
 var SessionModel = require('../model/session.js');
 
 router.post('/', function(req, res, next) {
+
     var body = req.body;
     var username = body.username || '';
     var password = body.password || '';
